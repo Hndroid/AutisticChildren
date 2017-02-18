@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AutisticChildren</string>
+    <string name="button_skip">跳过</string>
+    <string name="button_text">倒计</string>
+</resources>
