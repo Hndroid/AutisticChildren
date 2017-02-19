@@ -5,30 +5,26 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import com.zhuxiyungu.autisticchildren.R;
 import com.zhy.autolayout.AutoLayoutActivity;
 
-import butterknife.BindView;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import butterknife.ButterKnife;
 
 /**
- * Created by null on 17-2-17.
+ * Created by null on 17-2-18.
  */
 
-public class RegisterActivity extends AutoLayoutActivity {
-    @BindView(R.id.bg_imageview)
-    ImageView bgImageview;
-    @BindView(R.id.skip)
-    Button skip;
-    @BindView(R.id.button)
-    Button button;
+public class RightActivity extends AutoLayoutActivity {
+
+
     private Context context;
+    private Intent intent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,19 +34,26 @@ public class RegisterActivity extends AutoLayoutActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.register_activity_layout);
+        setContentView(R.layout.right_activity_layout);
         ButterKnife.bind(this);
         //设置屏幕为横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         context = this;
 
-        skip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ChildModelActivity.class);
-                startActivity(intent);
-            }
-        });
+        countDown();
 
+        intent = getIntent();
+
+    }
+
+    // TODO: 这个过程为出糖果的过程,需要单开一个线程处理对应的业务逻辑
+    public void countDown() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startActivity(new Intent(context, ChildModelActivity.class));
+                finish();
+            }
+        }, 5000);
     }
 }

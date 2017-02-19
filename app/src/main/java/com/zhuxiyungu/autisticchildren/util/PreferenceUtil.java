@@ -8,7 +8,7 @@ import android.util.Log;
  * Created by null on 17-2-17.
  */
 
-public class PreferenceUtils {
+public class PreferenceUtil {
 
 
     /**

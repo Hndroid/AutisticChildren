@@ -1,17 +1,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zhuxiyungu.autisticchildren">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +29,27 @@
         </activity>
         <!--登录界面-->
         <activity android:name=".ui.RegisterActivity"></activity>
+        <!--儿童模式界面-->
+        <activity
+            android:name=".ui.ChildModelActivity"
+            android:launchMode="singleTask"></activity>
+        <!--回答问题正确的界面-->
+        <activity android:name=".ui.RightActivity">
+            <intent-filter>
+                <!--可以定制多个动作  程序中只要有一个匹配就行 -->
+                <action android:name="android.andyidea.second"/>
+
+                <!--必须指定一个类别  用startActivity启动 -->
+                <category android:name="android.andyidea.category" />
+            </intent-filter>
+        </activity>
+        <!--回答问题错误的界面-->
+        <activity android:name=".ui.WrongActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.wrongAnswer" />
+                <category android:name="wrongAnswer"/>
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="design_width"
