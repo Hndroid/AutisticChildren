@@ -14,8 +14,17 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:scaleType="fitCenter"
-        tools:ignore="ContentnnDescription" />
+        android:src="@mipmap/first"
+        tools:ignore="ContentDescription,ContentnnDescription" />
 
-
+    <ImageView
+        android:id="@+id/word"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/word"
+        android:layout_marginEnd="52dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="26dp" />
 
 </RelativeLayout>

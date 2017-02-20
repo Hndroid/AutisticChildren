@@ -26,8 +26,6 @@ public class RegisterActivity extends AutoLayoutActivity {
     ImageView bgImageview;
     @BindView(R.id.skip)
     Button skip;
-    @BindView(R.id.button)
-    Button button;
     private Context context;
 
     @Override
@@ -38,7 +36,7 @@ public class RegisterActivity extends AutoLayoutActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.register_activity_layout);
+        setContentView(R.layout.login_activity_layout);
         ButterKnife.bind(this);
         //设置屏幕为横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -49,8 +47,10 @@ public class RegisterActivity extends AutoLayoutActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ChildModelActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
     }
+
 }

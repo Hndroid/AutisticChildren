@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
 import com.zhuxiyungu.autisticchildren.R;
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -15,17 +14,11 @@ import com.zhy.autolayout.AutoLayoutActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
- * Created by null on 17-2-17.
- * 开机动画的配置Activity
+ * Created by null on 17-2-20.
  */
 
-public class AnimationActivity extends AutoLayoutActivity {
-    @BindView(R.id.animation)
-    ImageView animation;
+public class NoTalkingActivity extends AutoLayoutActivity {
     private Context context;
 
     @Override
@@ -35,30 +28,21 @@ public class AnimationActivity extends AutoLayoutActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        setContentView(R.layout.animation_activity_layout);
-        context = this;
         //设置屏幕为横屏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        ButterKnife.bind(this);
 
-
-        //倒计时ui
-
-
-
+        setContentView(R.layout.no_talking_activity_layout);
+        context = this;
         countDown();
     }
 
-    //跳转注册页面
-    // TODO: 或者实现跳转儿童模式
     public void countDown() {
-       new Timer().schedule(new TimerTask() {
-           @Override
-           public void run() {
-               startActivity(new Intent(context, RegisterActivity.class));
-               finish();
-           }
-       }, 5000);
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                startActivity(new Intent(context, ChildModelActivity.class));
+                finish();
+            }
+        }, 5000);
     }
 }

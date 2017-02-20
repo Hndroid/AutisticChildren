@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">AutisticChildren</string>
+    <string name="app_name">小毕</string>
     <string name="button_skip">跳过</string>
     <string name="button_text">倒计</string>
+    <string name="input_userName">用户名称</string>
+    <string name="input_userpassword">用户密码</string>
+    <string name="button_login">登录</string>
     <string name="button_register">注册</string>
 </resources>

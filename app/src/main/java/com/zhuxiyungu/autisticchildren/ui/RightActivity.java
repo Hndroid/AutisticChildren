@@ -8,6 +8,10 @@ import android.support.annotation.Nullable;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SynthesizerListener;
 import com.zhuxiyungu.autisticchildren.R;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -25,7 +29,8 @@ public class RightActivity extends AutoLayoutActivity {
 
     private Context context;
     private Intent intent;
-
+    private final String RIGHT = "恭喜你，答对了！";
+    private SpeechSynthesizer mTts;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +45,14 @@ public class RightActivity extends AutoLayoutActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         context = this;
 
-        countDown();
 
         intent = getIntent();
 
+        mTts = SpeechSynthesizer.createSynthesizer(context, null);
+        setSynthesisParameters();
+        mTts.startSpeaking(RIGHT, synthesizerListener);
+
+        countDown();
     }
 
     // TODO: 这个过程为出糖果的过程,需要单开一个线程处理对应的业务逻辑
@@ -54,6 +63,51 @@ public class RightActivity extends AutoLayoutActivity {
                 startActivity(new Intent(context, ChildModelActivity.class));
                 finish();
             }
-        }, 5000);
+        }, 6000);
     }
+
+    //2.合成语音参数设置
+    public void setSynthesisParameters() {
+        mTts.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan"); //设置发音人
+        mTts.setParameter(SpeechConstant.SPEED, "30");//设置语速
+        mTts.setParameter(SpeechConstant.VOLUME, "100");//设置音量,范围 0~100
+        mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD); //设置云端
+    }
+
+    private SynthesizerListener synthesizerListener = new SynthesizerListener() {
+        @Override
+        public void onSpeakBegin() {
+
+        }
+
+        @Override
+        public void onBufferProgress(int i, int i1, int i2, String s) {
+
+        }
+
+        @Override
+        public void onSpeakPaused() {
+
+        }
+
+        @Override
+        public void onSpeakResumed() {
+
+        }
+
+        @Override
+        public void onSpeakProgress(int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onCompleted(SpeechError speechError) {
+
+        }
+
+        @Override
+        public void onEvent(int i, int i1, int i2, Bundle bundle) {
+
+        }
+    };
 }

@@ -10,16 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:src="@mipmap/echo" />
+        android:src="@mipmap/echo"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/show_question_textview"
-        android:layout_width="400px"
+        android:layout_width="450px"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="146dp"
         android:text=""
-        android:textSize="30px"
+        android:textSize="50px"
+        tools:ignore="PxUsage"
+        android:layout_marginStart="163dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="142dp" />
 
 </RelativeLayout>

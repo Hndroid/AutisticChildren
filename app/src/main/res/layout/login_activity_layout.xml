@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/bg_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/login"
+        tools:ignore="ContentDescription" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/input_userName"
+        android:layout_width="450px"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/materialEditText"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/input_userName"
+        android:singleLine="true"
+        android:textColor="#585a79"
+        android:textSize="50px"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextColor="#110443"
+        app:met_maxCharacters="10"
+        tools:ignore="Deprecated,PxUsage" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/materialEditText"
+        android:layout_width="450px"
+        android:layout_height="wrap_content"
+        android:hint="@string/input_userpassword"
+        android:singleLine="true"
+        android:textColor="#585a79"
+        android:textSize="50px"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelTextColor="#110443"
+        app:met_maxCharacters="10"
+        android:layout_above="@+id/register"
+        android:layout_alignStart="@+id/input_userName"
+        tools:ignore="Deprecated,PxUsage" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logup"
+        android:text="@string/button_register"
+        android:background="@null"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="21dp"
+        android:layout_alignStart="@+id/register" />
+
+    <Button
+        android:id="@+id/skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:text="@string/button_skip"
+        android:layout_alignBaseline="@+id/logup"
+        android:layout_alignBottom="@+id/logup"
+        android:layout_alignEnd="@+id/register" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="450px"
+        android:textSize="45px"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_login"
+        android:text="@string/button_login"
+        android:layout_above="@+id/logup"
+        android:layout_alignStart="@+id/materialEditText"
+        tools:ignore="PxUsage" />
+
+</RelativeLayout>

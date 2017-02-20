@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Butter_style">
+        <item name="android:color">#DB6868</item>
+    </style>
+
+
 </resources>

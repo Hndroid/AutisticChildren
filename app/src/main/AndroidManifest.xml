@@ -34,22 +34,11 @@
             android:name=".ui.ChildModelActivity"
             android:launchMode="singleTask"></activity>
         <!--回答问题正确的界面-->
-        <activity android:name=".ui.RightActivity">
-            <intent-filter>
-                <!--可以定制多个动作  程序中只要有一个匹配就行 -->
-                <action android:name="android.andyidea.second"/>
-
-                <!--必须指定一个类别  用startActivity启动 -->
-                <category android:name="android.andyidea.category" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.RightActivity"></activity>
         <!--回答问题错误的界面-->
-        <activity android:name=".ui.WrongActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.wrongAnswer" />
-                <category android:name="wrongAnswer"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.WrongActivity"></activity>
+        <!--接收不到儿童的声音界面-->
+        <activity android:name=".ui.NoTalkingActivity"></activity>
 
         <meta-data
             android:name="design_width"

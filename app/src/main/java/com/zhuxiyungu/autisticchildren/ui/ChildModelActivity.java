@@ -29,6 +29,7 @@ import com.zhy.autolayout.AutoLayoutActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -40,7 +41,7 @@ import butterknife.ButterKnife;
  * Created by null on 17-2-17.
  */
 
-public class ChildModelActivity extends AutoLayoutActivity {
+public class ChildModelActivity extends AutoLayoutActivity implements Serializable{
 
     private static final String TAG = "ChildModelActivity";
     @BindView(R.id.show_question_textview)
@@ -60,9 +61,8 @@ public class ChildModelActivity extends AutoLayoutActivity {
     private String result = null;
     private SharedPreferences sharedPreferences;
 
-    private final String RIGHT = "恭喜你，答对了！";
-    private final String WRONG = "答错了！爸爸不要你了！";
 
+    //语音合成监听器（朗读规则）
     private SynthesizerListener synthesizerListenerForRule = new SynthesizerListener() {
         @Override
         public void onSpeakBegin() {
@@ -91,6 +91,7 @@ public class ChildModelActivity extends AutoLayoutActivity {
 
         @Override
         public void onCompleted(SpeechError speechError) {
+            //调用函数开始合成语音
             startSynthesis();
         }
 
@@ -105,7 +106,7 @@ public class ChildModelActivity extends AutoLayoutActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //设置为全屏q
+        //设置为全屏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -117,6 +118,9 @@ public class ChildModelActivity extends AutoLayoutActivity {
         ButterKnife.bind(this);
         context = this;
 
+        //初始化即创建语音配置对象
+        SpeechUtility.createUtility(context, SpeechConstant.APPID + "=58a6d933");
+
         //1.通过Context对象创建一个SharedPreference对象
         sharedPreferences = context.getSharedPreferences("answer_times", Context.MODE_PRIVATE);
         //2.通过sharedPreferences对象获取一个Editor对象
@@ -125,8 +129,6 @@ public class ChildModelActivity extends AutoLayoutActivity {
         //4.提交Editor对象
 
 
-        //初始化即创建语音配置对象
-        SpeechUtility.createUtility(context, SpeechConstant.APPID + "=58a6d933");
 
         //[1]创建SpeechRecognizer对象,第二个参数:本地识别时传InitListener
         mIat = SpeechRecognizer.createRecognizer(context, null);
@@ -141,6 +143,7 @@ public class ChildModelActivity extends AutoLayoutActivity {
 
     }
 
+    //在界面获取焦点的时候调用下面的方法
     @Override
     protected void onResume() {
         super.onResume();
@@ -164,76 +167,13 @@ public class ChildModelActivity extends AutoLayoutActivity {
         // 设置返回结果格式
         mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
         // 设置语音前端点:静音超时时间，即用户多长时间不说话则当做超时处理
-        mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "9000"));
+        mIat.setParameter(SpeechConstant.VAD_BOS, mSharedPreferences.getString("iat_vadbos_preference", "5000"));
 
         // 设置语音后端点:后端点静音检测时间，即用户停止说话多长时间内即认为不再输入， 自动停止录音
-        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "2000"));
+        mIat.setParameter(SpeechConstant.VAD_EOS, mSharedPreferences.getString("iat_vadeos_preference", "1500"));
     }
 
-    //[3]接收儿童的语音答案
-    public void receiverQuestion() {
-        mIat.startListening(mRecoListener);
-    }
-
-    //用于说完话跳转
-    private SynthesizerListener synthesizerListenerAfter = new SynthesizerListener() {
-        @Override
-        public void onSpeakBegin() {
-
-        }
-
-        @Override
-        public void onBufferProgress(int i, int i1, int i2, String s) {
-
-        }
-
-        @Override
-        public void onSpeakPaused() {
-
-        }
-
-        @Override
-        public void onSpeakResumed() {
-
-        }
-
-        @Override
-        public void onSpeakProgress(int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void onCompleted(SpeechError speechError) {
-
-            if (result.contains(arrayList.get(i).answer)) {
-                Intent intent = new Intent(context, RightActivity.class);
-                ++i;
-                if (i <= arrayList.size()){
-                    editor.putInt("FLAG", i);
-                    editor.commit();
-                }else {
-                    // TODO: 17-2-20 这里实现超过问题数的逻辑
-                }
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(context, WrongActivity.class);
-                ++i;
-                if (i <= arrayList.size()){
-                    editor.putInt("FLAG", i);
-                    editor.commit();
-                }else {
-                    // TODO: 17-2-20 这里实现超过问题数的逻辑
-                }
-                startActivity(intent);
-            }
-        }
-
-        @Override
-        public void onEvent(int i, int i1, int i2, Bundle bundle) {
-
-        }
-    };
-    ////听写监听器
+    ///听写监听器
     private RecognizerListener mRecoListener = new RecognizerListener() {
         //听写结果回调接口(返回Json格式结果,用户可参见附录13.1);
         //一般情况下会通过onResults接口多次返回结果,完整的识别内容是多次结果的累加;
@@ -263,17 +203,23 @@ public class ChildModelActivity extends AutoLayoutActivity {
         public void onEndOfSpeech() {
             if (result != null) {
                 //语音不为空的情况，即可以接收到儿童的回答
-                Log.d(TAG, "onResult: " + result.contains(arrayList.get(i).answer));
-                if (result.contains(arrayList.get(i).answer)) {
-                    mTts.startSpeaking(RIGHT, synthesizerListenerAfter);
-
-                } else {
-                    mTts.startSpeaking(WRONG, synthesizerListenerAfter);
-
-                }
+                /*Log.d(TAG, "onResult: " + result.contains(arrayList.get(i).answer));*/
+                //接收到语音处理的问题
+                jumpPage();
             } else {
                 //语音为空的情况，即接收不到儿童的回答
-
+                Intent intent = new Intent(context, NoTalkingActivity.class);
+                ++i;
+                if (i < arrayList.size()){
+                    editor.putInt("FLAG", i);
+                    editor.commit();
+                }else {
+                    // TODO: 17-2-20 这里实现超过问题数的逻辑
+                    editor.clear();
+                    editor.putInt("FLAG", 0);
+                    editor.commit();
+                }
+                startActivity(intent);
             }
         }
 
@@ -327,6 +273,7 @@ public class ChildModelActivity extends AutoLayoutActivity {
 
         @Override
         public void onCompleted(SpeechError speechError) {
+            //问题语音合成完成以后，就开始等待儿童语音输入
             waitToSpeek();
         }
 
@@ -347,20 +294,14 @@ public class ChildModelActivity extends AutoLayoutActivity {
         mTts.startSpeaking("小朋友，你好！我是超级无敌可爱的小叮当，下面我开始提问问题了，答对了有糖吃", synthesizerListenerForRule);
     }
 
-    //[2]开始合成第一个问题的语音
+    //[2]开始合成问题的语音
     public void startSynthesis() {
         arrayList = QuestionBean.bean();
         askingQuestion(arrayList.get(i));
     }
 
-    //[3]等待答案的语音录入
+    //[3]等待答案的儿童答案语音的录入
     public void waitToSpeek() {
-        //[3.1]不回答
-        //循环三次
-        //[3.2]回答错误
-        //记录题号，进入下一道题
-        //[3.3]回答正确
-        //进入下一道题
         mIat.startListening(mRecoListener);
 
     }
@@ -387,5 +328,49 @@ public class ChildModelActivity extends AutoLayoutActivity {
         }
 
         return resultBuffer.toString().trim();
+    }
+
+    //判断跳转
+    public void jumpPage() {
+        if (result.contains(arrayList.get(i).answer)) {
+            //接收儿童正确的语音后执行的逻辑
+            Intent intent = new Intent(context, RightActivity.class);
+            ++i;
+            Bundle bundle = new Bundle();
+            if (i < arrayList.size()){
+                editor.putInt("FLAG", i);
+                editor.commit();
+            }else {
+                // TODO: 17-2-20 这里实现超过问题数的逻辑
+                editor.clear();
+                editor.putInt("FLAG", 0);
+                editor.commit();
+            }
+            startActivity(intent);
+        } else {
+            //接收儿童错误的逻辑
+            Intent intent = new Intent(context, WrongActivity.class);
+            ++i;
+            if (i < arrayList.size()){
+                editor.putInt("FLAG", i);
+                editor.commit();
+            }else {
+                // TODO: 17-2-20 这里实现超过问题数的逻辑
+                editor.clear();
+                editor.putInt("FLAG", 0);
+                editor.commit();
+            }
+            startActivity(intent);
+        }
+    }
+
+    //当用户按返回键的时候注销资源
+    @Override
+    public void onBackPressed() {
+        mTts.stopSpeaking();
+        mTts.destroy();
+        mIat.cancel();
+        mIat.destroy();
+        super.onBackPressed();
     }
 }
