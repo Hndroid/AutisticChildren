@@ -10,7 +10,7 @@
         android:id="@+id/bg_imageview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@mipmap/login"
+        android:src="@mipmap/zhuce"
         tools:ignore="ContentDescription" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
@@ -43,35 +43,6 @@
         app:met_maxCharacters="10"
         tools:ignore="Deprecated,PxUsage" />
 
-    <Button
-        android:id="@+id/register"
-        android:layout_width="450px"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/logup"
-        android:layout_alignStart="@+id/input_password"
-        android:background="@drawable/bg_login"
-        android:text="@string/button_login"
-        android:textSize="45px"
-        tools:ignore="PxUsage" />
-
-    <Button
-        android:id="@+id/logup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/register"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:background="@null"
-        android:text="@string/button_register" />
-
-    <CheckBox
-        android:id="@+id/remenber_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/logup"
-        android:layout_alignBottom="@+id/logup"
-        android:layout_alignStart="@+id/register"
-        android:text="@string/remenber_password" />
 
     <Button
         android:id="@+id/skip"
@@ -81,5 +52,16 @@
         android:layout_alignParentEnd="true"
         android:background="@null"
         android:text="@string/button_skip" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="450px"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_login"
+        android:text="@string/button_zhuce"
+        android:textSize="45px"
+        tools:ignore="PxUsage"
+        android:layout_above="@+id/skip"
+        android:layout_alignStart="@+id/input_password" />
 
 </RelativeLayout>
