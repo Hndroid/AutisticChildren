@@ -72,8 +72,13 @@ public class RegisterActivity extends AutoLayoutActivity {
                     editor.putBoolean("isCheck", true);
                     editor.commit();
                 }
+                //这里直接进入到儿童模式
+                /*Intent intent = new Intent(context, ChildModelActivity.class);
+                startActivity(intent);
+                finish();*/
 
                 // TODO: 17-2-21 这里写的是登录到家长的界面
+
             }
         });
 

@@ -1,0 +1,12 @@
+<resources>
+
+    <dimen name="layout_padding">15dp</dimen>
+    <dimen name="dialog_margin">30dp</dimen>
+
+    <!-- 字体尺寸 -->
+    <dimen name="text_xhsize">18sp</dimen>
+    <dimen name="text_hsize">16sp</dimen>
+
+    <!-- 图片大小 -->
+
+</resources>

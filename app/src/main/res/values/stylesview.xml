@@ -1,0 +1,47 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="view_style"></style>
+
+    <style name="button_style" parent="view_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/text_xhsize</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="edittext_style" parent="view_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_hsize</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:textColorHint">#999999</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:hint">#cccccc</item>
+        <item name="android:maxLength">40</item>
+        <item name="android:background">@drawable/edittext_grey_bg</item>
+    </style>
+    
+    <style name="textview_style" parent="view_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_hsize</item>
+        <item name="android:textColor">#333333</item>
+    </style>
+
+    <style name="list_select_item" parent="view_style">
+        <item name="android:clickable">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/layout_padding</item>
+        <item name="android:paddingRight">@dimen/layout_padding</item>
+        <item name="android:paddingTop">@dimen/layout_padding</item>
+        <item name="android:paddingBottom">@dimen/layout_padding</item>
+        <item name="android:background">@drawable/white_grey_selector</item>
+    </style>
+
+</resources>

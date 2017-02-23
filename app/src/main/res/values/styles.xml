@@ -11,6 +11,43 @@
     <style name="Butter_style">
         <item name="android:color">#DB6868</item>
     </style>
+    <!--***************************************-->
+<style name="MyDialog" parent="@android:style/Theme.Dialog">
+<item name="android:windowIsTranslucent">true</item>
+<!--  半透明  -->
+<item name="android:windowFullscreen">true</item>
+<!--  全屏  -->
+<item name="android:windowNoTitle">true</item>
+<item name="android:windowFrame">@null</item>
+<item name="android:windowIsFloating">true</item>
+<item name="android:windowBackground">@android:color/transparent</item>
+<item name="android:backgroundDimEnabled">true</item>
+</style>
+<style name="dialog_full">
+<item name="android:windowFrame">@null</item>
+<item name="android:windowIsFloating">false</item>
+<item name="android:windowIsTranslucent">true</item>
+<item name="android:windowNoTitle">true</item>
+<item name="android:windowBackground">@android:color/transparent</item>
+<item name="android:backgroundDimEnabled">true</item>
+</style>
+<style name="dialog" parent="@android:style/Theme.Dialog">
+<item name="android:windowFrame">@null</item>
+<item name="android:windowIsFloating">true</item>
+<item name="android:windowIsTranslucent">false</item>
+<item name="android:windowNoTitle">true</item>
+<item name="android:background">@android:color/transparent</item>
+<item name="android:windowBackground">@null</item>
+<item name="android:backgroundDimEnabled">false</item>
+</style>
+<style name="dialog1" parent="@android:style/Theme.Dialog">
+<item name="android:windowFrame">@null</item>
+<item name="android:windowIsFloating">true</item>
+<item name="android:windowIsTranslucent">false</item>
+<item name="android:windowNoTitle">true</item>
+<item name="android:background">@android:color/transparent</item>
+<item name="android:backgroundDimEnabled">false</item>
+</style>
 
 
 </resources>

@@ -8,4 +8,13 @@
     <string name="button_zhuce">注册</string>
     <string name="button_register">注册</string>
     <string name="remenber_password">记住密码</string>
+    <string name="wifi_name">WIFI</string>
+    <string name="connect">连接</string>
+    <string name="start">转动</string>
+    <string name="parent_mode">进入家长模式</string>
+    <string name="wait_later">Wait later...</string>
+    <!-- 没有 -->
+    <string name="Back">返回</string>
+    <string name="Enter_psd_to_router">请输入路由器的wifi密码</string>
+    <string name="Load_more">更多</string>
 </resources>

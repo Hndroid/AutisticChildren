@@ -28,4 +28,14 @@
         android:layout_alignParentEnd="true"
         tools:ignore="ContentDescription" />
 
+    <Button
+        android:id="@+id/parent_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/parent_mode"
+        android:background="@null"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/word"
+        android:layout_marginBottom="22dp" />
+
 </RelativeLayout>

@@ -8,4 +8,18 @@
     <color name="login">#d6dee6</color>
     <color name="btnLoginColor">#f1f5f9</color>
 
+    <color name="color1">#ff0f9d58</color>
+<color name="color2">#ffdb4437</color>
+<color name="color3">#ff4285f4</color>
+<color name="color4">#fff4b400</color>
+<color name="white">#ffffff</color>
+<color name="item_on">#f9f9f9</color>
+<color name="mhome_history_on">#b0defc</color>
+<color name="main_color">#fcaf3d</color>
+<!-- <color name="main_color">#fcb85a</color> -->
+<color name="gray_bg">#f2f2f2</color>
+<!-- <color name="background">#ebeae4</color> -->
+<color name="background">#f5f2e2</color>
+<!-- <color name="background">#36b7d3</color> -->
+<color name="gray_txt">#90000000</color>
 </resources>
