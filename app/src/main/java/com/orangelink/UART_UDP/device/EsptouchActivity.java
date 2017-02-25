@@ -81,6 +81,7 @@ public class EsptouchActivity extends BaseActivity implements OnClickListener {
     private String remo_ip;
     private static final int UDP_SERVER_PORT = 2012;
     private String ApSsid;
+    //代表一个套字节发送和接收数据
     private DatagramSocket My_UDP_Socket;
     private UDP_SEND udp_client;
     ExecutorService exec2;
@@ -206,12 +207,12 @@ public class EsptouchActivity extends BaseActivity implements OnClickListener {
             new EsptouchAsyncTask3().execute(apSsid, apBssid, apPassword, isSsidHiddenStr, taskResultCountStr);
         }
 
-        //例子，手机发送一个"good"数据到装置，装置转动一次
+        /*//例子，手机发送一个"good"数据到装置，装置转动一次
         else if (v == btn1) {
             Log.i("btn1 :::::::", "OK");
             start_MOTOR();
 
-        }
+        }*/
 
     }
 

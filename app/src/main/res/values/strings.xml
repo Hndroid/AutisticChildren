@@ -17,4 +17,8 @@
     <string name="Back">返回</string>
     <string name="Enter_psd_to_router">请输入路由器的wifi密码</string>
     <string name="Load_more">更多</string>
+    <string name="device">我的设备</string>
+    <string name="download">下载</string>
+    <string name="voice">音效</string>
+    <string name="more">更多</string>
 </resources>

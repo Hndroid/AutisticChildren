@@ -119,7 +119,7 @@ public class ChildModelActivity extends AutoLayoutActivity implements Serializab
         context = this;
 
         //初始化即创建语音配置对象
-        SpeechUtility.createUtility(context, SpeechConstant.APPID + "=58a6d933");
+        SpeechUtility.createUtility(context, SpeechConstant.APPID + "=58afec48");
 
         //1.通过Context对象创建一个SharedPreference对象
         sharedPreferences = context.getSharedPreferences("answer_times", Context.MODE_PRIVATE);
@@ -291,7 +291,8 @@ public class ChildModelActivity extends AutoLayoutActivity implements Serializab
 
     //[1]跳转到该页面的时候首先介绍游戏规则
     public void gameRule() {
-        mTts.startSpeaking("小朋友，你好！我是超级无敌可爱的小叮当，下面我开始提问问题了，答对了有糖吃", synthesizerListenerForRule);
+        Log.d(TAG, "gameRule: ++++++++++++++++++++++++++++++++++++++++++++++++++");
+        mTts.startSpeaking("小朋友，你好吗？我是超级无敌可爱的小叮当，回答我的问题，答对了就奖励一颗糖果，想不想吃？", synthesizerListenerForRule);
     }
 
     //[2]开始合成问题的语音
@@ -330,8 +331,11 @@ public class ChildModelActivity extends AutoLayoutActivity implements Serializab
         return resultBuffer.toString().trim();
     }
 
-    //判断跳转
+    //接收到语音后，判断跳转
     public void jumpPage() {
+        Log.d("dingdang", result);
+        Log.d("dingdang", arrayList.get(i).answer);
+
         if (result.contains(arrayList.get(i).answer)) {
             //接收儿童正确的语音后执行的逻辑
             Intent intent = new Intent(context, RightActivity.class);

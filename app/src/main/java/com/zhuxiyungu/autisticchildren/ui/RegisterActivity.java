@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.zhuxiyungu.autisticchildren.R;
+import com.zhuxiyungu.autisticchildren.mvp.view.ParentModeActivity;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.BindView;
@@ -78,6 +79,10 @@ public class RegisterActivity extends AutoLayoutActivity {
                 finish();*/
 
                 // TODO: 17-2-21 这里写的是登录到家长的界面
+                //这里进入家长模式
+                Intent intent = new Intent(context, ParentModeActivity.class);
+                startActivity(intent);
+                finish();
 
             }
         });

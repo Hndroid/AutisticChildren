@@ -1,218 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<include layout="@layout/title_layout" />-->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_lauout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:background="@color/main_color"-->
-    <!--android:orientation="vertical">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginLeft="10dp"-->
-    <!--android:layout_marginRight="10dp"-->
-    <!--android:layout_marginTop="0dp"-->
-    <!--android:layout_marginBottom="10dp"-->
-    <!--android:gravity="left"-->
-    <!--android:text="输入wifi密码，然后点击绑定设备"-->
-    <!--android:textColor="@color/white"-->
-    <!--android:textSize="14sp" />-->
-
-    <!--</LinearLayout>-->
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="38dp"
-            android:layout_marginLeft="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvApSssidConnected"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="当前路由器"
-
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edtApPassword"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:background="#ffffff"
-                android:gravity="center_vertical"
-                android:hint="@string/Enter_psd_to_router"
-                android:paddingLeft="5dp"
-                android:singleLine="true"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="0dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="如果ssid是隐藏的，请选择隐藏模式"
-                android:textSize="12sp" />
-
-            <CheckBox
-                android:id="@+id/switchIsSsidHidden"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="35dp"
-            android:layout_marginTop="0dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btnConfirm"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:layout_margin="20dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                android:gravity="center"
-                android:text="开始配置"
-                android:textSize="16sp" />
-        </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="500px"
+                    android:layout_gravity="center"
+                    android:gravity="center">
 
-    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
+                        <ImageView
+                            android:id="@+id/image_head"
+                            android:layout_width="200px"
+                            android:layout_height="200px"
+                            android:src="@mipmap/ic_launcher" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/individual"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="4px"
+                            android:text="个人信息" />
+                    </LinearLayout>
 
-        <TextView
-            android:id="@+id/online"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:text=''
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:text='收到的数据：'
-
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/get"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:text=''
-
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:orientation="horizontal">
-
-        <TextView
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:text='发送的数据：'
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:text=''
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btn1"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_margin="20dp"
-            android:gravity="center"
-            android:text="转动"
-            android:textSize="16sp" />
-    </LinearLayout>
+                </RelativeLayout>
 
 
-</LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3px"
+                    android:layout_marginLeft="19px"
+                    android:layout_marginRight="19px"
+                    android:background="@color/background_cut" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200px">
+
+                    <TextView
+                        android:id="@+id/count"
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="选择套题"
+                        android:textSize="36px" />
+
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="match_parent"
+                        android:background="@color/background_cut" />
+
+                    <TextView
+                        android:id="@+id/star_answer"
+                        android:layout_width="0px"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="开始答题"
+                        android:textSize="36px" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="19px"
+                    android:layout_marginRight="19px"
+                    android:background="@color/background_cut" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180px"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80px"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="19px"
+                            android:layout_marginTop="40px"
+                            android:text="@string/device" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:layout_marginLeft="19px"
+                        android:layout_marginRight="19px"
+                        android:background="@color/background_cut" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/add_device"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="添加新的设备"
+                            android:textSize="36px" />
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="19px"
+                    android:layout_marginRight="19px"
+                    android:background="@color/background_cut" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180px"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80px"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="19px"
+                            android:layout_marginTop="40px"
+                            android:text="@string/voice" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:layout_marginLeft="19px"
+                        android:layout_marginRight="19px"
+                        android:background="@color/background_cut" />
+
+                    <TextView
+                        android:id="@+id/choose_voice"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="选择语音"
+                        android:textSize="36px" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="19px"
+                    android:layout_marginRight="19px"
+                    android:background="@color/background_cut" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80px"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="19px"
+                            android:layout_marginTop="40px"
+                            android:text="@string/more" />
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:layout_marginLeft="19px"
+                        android:layout_marginRight="19px"
+                        android:background="@color/background_cut" />
+
+                    <TextView
+                        android:id="@+id/check_updata"
+                        android:layout_width="match_parent"
+                        android:layout_height="100px"
+                        android:gravity="center"
+                        android:text="检查更新"
+                        android:textSize="36px" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:layout_marginLeft="19px"
+                        android:layout_marginRight="19px"
+                        android:background="@color/background_cut" />
+
+                    <TextView
+                        android:id="@+id/feed_back"
+                        android:layout_width="match_parent"
+                        android:layout_height="100px"
+                        android:gravity="center"
+                        android:text="意见反馈"
+                        android:textSize="36px" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2px"
+                        android:layout_marginLeft="19px"
+                        android:layout_marginRight="19px"
+                        android:background="@color/background_cut" />
+
+                    <TextView
+                        android:id="@+id/about"
+                        android:layout_width="match_parent"
+                        android:layout_height="100px"
+                        android:gravity="center"
+                        android:text="关于"
+                        android:textSize="36px" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="19px"
+                    android:layout_marginRight="19px"
+                    android:background="@color/background_cut" />
+
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="100px"
+                    android:layout_marginBottom="50px"
+                    android:layout_marginTop="100px"
+                    android:background="@drawable/button_logout"
+                    android:text="注销帐号"
+                    android:textSize="36px" />
+
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</FrameLayout>

@@ -1,18 +1,21 @@
-package com.zhuxiyungu.autisticchildren.ui;
+package com.zhuxiyungu.autisticchildren.mvp.view;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.espressif.iot.esptouch.EsptouchTask;
 import com.espressif.iot.esptouch.IEsptouchListener;
@@ -20,12 +23,8 @@ import com.espressif.iot.esptouch.IEsptouchResult;
 import com.espressif.iot.esptouch.IEsptouchTask;
 import com.espressif.iot.esptouch.demo_activity.EspWifiAdminSimple;
 import com.espressif.iot.esptouch.task.__IEsptouchTask;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechError;
-import com.iflytek.cloud.SpeechSynthesizer;
-import com.iflytek.cloud.SynthesizerListener;
+import com.orangelink.UART_UDP.device.EsptouchActivity;
 import com.zhuxiyungu.autisticchildren.R;
-import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -34,79 +33,93 @@ import java.net.InetAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 
-import butterknife.ButterKnife;
+import static com.zhuxiyungu.autisticchildren.R.id.get;
 
 /**
- * Created by null on 17-2-18.
+ * Created by null on 17-2-23.
+ * 添加设备界面
  */
 
-public class RightActivity extends AutoLayoutActivity implements View.OnClickListener{
-
-
-    private Context context;
-    private Intent intent;
-    private final String RIGHT = "恭喜你，答对了！";
-    private SpeechSynthesizer mTts;
+public class AddDeviceFragment extends Fragment implements View.OnClickListener {
+    private View view;
     private static final String TAG = "laoluo";
-  /*  private TextView mTvApSsid;
+    private TextView mTvApSsid;
     public TextView mget;
     private TextView msend;
     private TextView monline;
     private EditText mEdtApPassword;
     private Button mBtnConfirm;
-    private Button btn1;
-    private Button btn2;
-    private Button btn3;
-    private Button btn4;
-    private Button btn5;*/
-    /*private LinearLayout mBack;
-    private CheckBox mCheckboxIsSsidHidden;*/
+    private CheckBox mCheckboxIsSsidHidden;
     private EspWifiAdminSimple mWifiAdmin;
-
-    private String remo_ip;
     private static final int UDP_SERVER_PORT = 2012;
     private String ApSsid;
-    //代表一个套字节发送和接收数据
     private DatagramSocket My_UDP_Socket;
-    private UDP_SEND udp_client;
+    private EsptouchActivity.UDP_SEND udp_client;
     ExecutorService exec2;
-    private int Online=0;
+    private int Online = 0;
     private String Myip;
+    private DatagramSocket the_socket;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.add_device_fragement_layout, null);
+        return view;
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //设置为全屏
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        setContentView(R.layout.right_activity_layout);
-        ButterKnife.bind(this);
-        //设置屏幕为横屏
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        context = this;
+        mWifiAdmin = new EspWifiAdminSimple(getActivity());
+        mTvApSsid = (TextView) view.findViewById(R.id.tvApSssidConnected);
+        mEdtApPassword = (EditText) view.findViewById(R.id.edtApPassword);
 
-        mWifiAdmin = new EspWifiAdminSimple(this);
+        mBtnConfirm = (Button) view.findViewById(R.id.btnConfirm);
 
+        /*btn1 = (Button) view.findViewById(btn1);
+        mBtnConfirm.setOnClickListener();
+        btn1.setOnClickListener();*/
 
-        intent = getIntent();
+        mget = (TextView) view.findViewById(get);
+        msend = (TextView) view.findViewById(R.id.send);
+        monline = (TextView) view.findViewById(R.id.online);
 
-        mTts = SpeechSynthesizer.createSynthesizer(context, null);
-        setSynthesisParameters();
-        mTts.startSpeaking(RIGHT, synthesizerListener);
-
-
-        handler.postDelayed(runnable, 500);
+        mCheckboxIsSsidHidden = (CheckBox) view.findViewById(R.id.switchIsSsidHidden);
 
         UDP_init();
-        start_MOTOR();
-        countDown();
+
+        /*
+        * udp 不是面向连接的，不管是配置前还是配置后，app都无法像tcp协议一样可以保持连接通道，所以需要设计一个udp心跳包，检测局域网是否存在设备
+        * */
+        handler.postDelayed(runnable, 500);
+
+        mBtnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.v("laoluo", "click me! OK");
+                String apSsid = ApSsid;
+                String apPassword = mEdtApPassword.getText().toString();
+
+                String apBssid = mWifiAdmin.getWifiConnectedBssid();
+
+                Boolean isSsidHidden = mCheckboxIsSsidHidden.isChecked();
+                String isSsidHiddenStr;
+
+                if (isSsidHidden) {
+                    isSsidHiddenStr = "YES";
+                } else {
+                    isSsidHiddenStr = "NO";
+                }
+                String taskResultCountStr = "1";
+                new EsptouchAsyncTask3().execute(apSsid, apBssid, apPassword, isSsidHiddenStr, taskResultCountStr);
+            }
+        });
     }
 
     Handler handler = new Handler();
@@ -116,77 +129,57 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
         public void run() {
             try {
 
-                if(Online>0){
+                if (Online > 0) {
                     Online--;
                 }
 
-                if(Online==0){
-                    /*monline.setText("设备不在线，请打开设备，或者配置");
-                    monline.setTextColor(Color.parseColor("red"));*/
+                if (Online == 0) {
+                    monline.setText("设备不在线，请打开设备，或者配置");
+                    monline.setTextColor(Color.parseColor("blue"));
                     handler.postDelayed(this, 1000);//没在线的时候，1秒钟检测一次
-                }else{
+                } else {
                     handler.postDelayed(this, 5000);//发现设备之后，5秒钟检测一次
                 }
                 sent_udp("online");//所谓心跳，就是app发送一个"online"字符串，广播到局域网中
 
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 System.out.println("exception...");
             }
         }
     };
 
-
-
-
     //进入页面时，判断手机是否处于wifi状态中，配置必须要在wifi环境中，
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         ApSsid = mWifiAdmin.getWifiConnectedSsid();
+        if (ApSsid != null) {
+            mTvApSsid.setText("当前路由器：" + ApSsid);
+        } else {
+            mTvApSsid.setText("手机需要先连接到wifi上");
+            mBtnConfirm.setEnabled(false);
+        }
     }
-
-
-
 
     //转动装置的马达，请确保设备在线后调用（即收到心跳online后，再调用）
-    public void start_MOTOR()
-    {
-        String tosend="good";
+    public void start_MOTOR() {
+        String tosend = "good";
         sent_udp(tosend);
 
-        /*SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss");
-        Date curDate =  new Date(System.currentTimeMillis());//获取当前时间
-        String str = formatter.format(curDate)+":"+tosend;
-        msend.setText(str);*/
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String str = formatter.format(curDate) + ":" + tosend;
+        msend.setText(str);
     }
-
-
-
 
     @Override
     public void onClick(View v) {
 
-        /*//wifi配置
+        //wifi配置
         if (v == mBtnConfirm) {
-            Log.v("laoluo", "click me! OK");
-            String apSsid = ApSsid;
-            String apPassword = mEdtApPassword.getText().toString();
 
-            String apBssid = mWifiAdmin.getWifiConnectedBssid();
-
-            Boolean isSsidHidden = mCheckboxIsSsidHidden.isChecked();
-            String isSsidHiddenStr;
-
-            if (isSsidHidden) {
-                isSsidHiddenStr = "YES";
-            } else {
-                isSsidHiddenStr = "NO";
-            }
-            String taskResultCountStr = "1";
-            new EsptouchAsyncTask3().execute(apSsid, apBssid, apPassword, isSsidHiddenStr, taskResultCountStr);
-        }*/
+        }
 
         /*//例子，手机发送一个"good"数据到装置，装置转动一次
         else if (v == btn1) {
@@ -194,20 +187,18 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
             start_MOTOR();
 
         }*/
-
     }
-
-
 
     //配置wifi使用
     private void onEsptoucResultAddedPerform(final IEsptouchResult result) {
-        runOnUiThread(new Runnable() {
+        getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
             }
         });
     }
+
     //配置wifi使用
     private IEsptouchListener myListener = new IEsptouchListener() {
         @Override
@@ -215,6 +206,7 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
             onEsptoucResultAddedPerform(result);
         }
     };
+
     //配置wifi使用
     private class EsptouchAsyncTask3 extends AsyncTask<String, Void, List<IEsptouchResult>> {
 
@@ -224,7 +216,7 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
 
         @Override
         protected void onPreExecute() {
-            mProgressDialog = new ProgressDialog(RightActivity.this);
+            mProgressDialog = new ProgressDialog(getContext());
             mProgressDialog.setMessage("正在配置中, 耐心等待...");
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -265,7 +257,7 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
                     isSsidHidden = true;
                 }
                 taskResultCount = Integer.parseInt(taskResultCountStr);
-                mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword, isSsidHidden, RightActivity.this);
+                mEsptouchTask = new EsptouchTask(apSsid, apBssid, apPassword, isSsidHidden, getContext());
                 mEsptouchTask.setEsptouchListener(myListener);
             }
             List<IEsptouchResult> resultList = mEsptouchTask.executeForResults(taskResultCount);
@@ -291,19 +283,12 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
         }
     }
 
-
-
-
-
-
-
     /*
     *
     * 以下是udp部分的工作业务逻辑
     *
     * */
-    public void UDP_init()
-    {
+    public void UDP_init() {
         My_UDP_Socket = null;
         try {
             My_UDP_Socket = new DatagramSocket();
@@ -315,12 +300,10 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
     }
 
 
-    public void sent_udp(String tosend)
-    {
-        Thread thread = new Thread(new UDP_SEND(My_UDP_Socket,tosend,UDP_SERVER_PORT), "thread1");
+    public void sent_udp(String tosend) {
+        Thread thread = new Thread(new UDP_SEND(My_UDP_Socket, tosend, UDP_SERVER_PORT), "thread1");
         thread.start();
     }
-
 
 
     //udp接收
@@ -339,10 +322,10 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
         public void run() {
             get_Packet = new DatagramPacket(msg, msg.length);
             String getdata;
-            while(true) try {
+            while (true) try {
                 the_socket.receive(get_Packet);//此处阻塞
 
-                getdata = new String(get_Packet.getData(), 0 ,get_Packet.getLength());
+                getdata = new String(get_Packet.getData(), 0, get_Packet.getLength());
                 getdata = getdata.replaceAll("[\u0000-\u001f]", "");
                 Log.i("msg sever received", getdata);
 
@@ -350,7 +333,7 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
                 SocketAddress dev_address = get_Packet.getSocketAddress();
                 Myip = dev_address.toString();
 
-                RightActivity.this.runOnUiThread(new ChangeText(getdata));
+                getActivity().runOnUiThread(new ChangeText(getdata));
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -359,25 +342,25 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
     }
 
 
-
     class ChangeText implements Runnable {
         String text;
+
         ChangeText(String text) {
             this.text = text;
         }
+
         @Override
         public void run() {
-            Online=2;
+            Online = 2;
+            monline.setText("设备已经在线");
+            monline.setTextColor(Color.parseColor("green"));
 
-            /*monline.setText("设备已经在线");
-            monline.setTextColor(Color.parseColor("green"));*/
-
-            /*if(!this.text.equals("online")) {
-                SimpleDateFormat formatter=new SimpleDateFormat("HH:mm:ss");
-                Date curDate =  new Date(System.currentTimeMillis());//获取当前时间
-                String str = formatter.format(curDate)+":"+this.text;
+            if (!this.text.equals("online")) {
+                SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+                Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+                String str = formatter.format(curDate) + ":" + this.text;
                 mget.setText(str);
-            }*/
+            }
         }
     }
 
@@ -386,13 +369,13 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
     public class UDP_SEND implements Runnable {
 
         private DatagramPacket bcast_send_packet;
-        private DatagramSocket the_socket;
+
 
         private int re_port;
         private String buf;
 
-        public UDP_SEND(DatagramSocket new_socket,String buf,int re_port) {
-            this.the_socket = new_socket;
+        public UDP_SEND(DatagramSocket new_socket, String buf, int re_port) {
+            the_socket = new_socket;
             this.buf = buf;
             this.re_port = re_port;
         }
@@ -419,61 +402,15 @@ public class RightActivity extends AutoLayoutActivity implements View.OnClickLis
         }
     }
 
-
-
-    // TODO: 这个过程为出糖果的过程,需要单开一个线程处理对应的业务逻辑
-    public void countDown() {
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                startActivity(new Intent(context, ChildModelActivity.class));
-                finish();
-            }
-        }, 6000);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 
-    //2.合成语音参数设置
-    public void setSynthesisParameters() {
-        mTts.setParameter(SpeechConstant.VOICE_NAME, "xiaoyan"); //设置发音人
-        mTts.setParameter(SpeechConstant.SPEED, "30");//设置语速
-        mTts.setParameter(SpeechConstant.VOLUME, "100");//设置音量,范围 0~100
-        mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD); //设置云端
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        the_socket.close();
+
     }
-
-    private SynthesizerListener synthesizerListener = new SynthesizerListener() {
-        @Override
-        public void onSpeakBegin() {
-
-        }
-
-        @Override
-        public void onBufferProgress(int i, int i1, int i2, String s) {
-
-        }
-
-        @Override
-        public void onSpeakPaused() {
-
-        }
-
-        @Override
-        public void onSpeakResumed() {
-
-        }
-
-        @Override
-        public void onSpeakProgress(int i, int i1, int i2) {
-
-        }
-
-        @Override
-        public void onCompleted(SpeechError speechError) {
-
-        }
-
-        @Override
-        public void onEvent(int i, int i1, int i2, Bundle bundle) {
-
-        }
-    };
 }

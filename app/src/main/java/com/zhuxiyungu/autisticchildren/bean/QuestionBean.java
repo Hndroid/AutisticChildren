@@ -20,21 +20,27 @@ public class QuestionBean {
 
           Question question1 = new Question();
           question1.question_id = 2;
-          question1.question_context = "你叫什么名字呢？";
-          question1.answer = "自闭症儿童";
+          question1.question_context = "你叫什么名字？";
+          question1.answer = "我叫";
           arrayList.add(question1);
 
           Question question2 = new Question();
           question2.question_id = 3;
-          question2.question_context = "2+3等于多少呢？";
-          question2.answer = "5";
+          question2.question_context = "请跟我读，爸爸";
+          question2.answer = "爸爸";
           arrayList.add(question2);
 
           Question question3 = new Question();
           question3.question_id = 4;
-          question3.question_context = "地球是圆的还是方的呢？";
-          question3.answer = "圆的";
+          question3.question_context = "请跟我读，妈妈？";
+          question3.answer = "妈妈";
           arrayList.add(question3);
+
+          Question question4 = new Question();
+          question4.question_id = 5;
+          question4.question_context = "你几岁啦？";
+          question4.answer = "岁";
+          arrayList.add(question4);
 
           return arrayList;
      }

@@ -22,4 +22,5 @@
 <color name="background">#f5f2e2</color>
 <!-- <color name="background">#36b7d3</color> -->
 <color name="gray_txt">#90000000</color>
+    <color name="background_cut">#ffeaebed</color>
 </resources>
